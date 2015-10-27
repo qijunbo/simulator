@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+Copyright Logica 2010
+
+All rights reserved. This document is protected by international copyright law and may not be reprinted,
+reproduced, copied or utilised in whole or in part by any means including electronic, mechanical,
+or other means without the prior written consent of Logica. 
+
+
+Whilst reasonable care has been taken by Logica to ensure the information contained herein is
+reasonably accurate, Logica shall not, under any circumstances be liable for any loss or damage
+(direct or consequential) suffered by any party as a result of the contents of this publication or
+the reliance of any party thereon or any inaccuracy or omission therein. The information in this
+document is therefore provided on an "as is" basis without warranty and is subject to change
+without further notice and cannot be construed as a commitment by Logica. 
+
+
+The products mentioned in this document are identified by the names, trademarks, service marks and
+logos of their respective companies or organisations and may not be used in any advertising or publicity
+or in any other way whatsoever without the prior written consent of those companies or organisations
+and Logica.
+--><xsd:schema elementFormDefault="qualified" targetNamespace="urn://Ocpp/Cp/2010/08/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn://Ocpp/Cp/2010/08/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+      
+      
+      
+      
+      
+      
+      
+            
+      
+      
+      
+      
+      
+      
+            
+      
+      
+      
+      
+            
+      
+      
+            
+      
+      
+      
+                                                                                                                                  <xsd:simpleType name="UnlockStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the unlock-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Accepted"/>
+          <xsd:enumeration value="Rejected"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="UnlockConnectorRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the UnlockConnector.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="connectorId" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="UnlockConnectorResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the UnlockConnector.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:UnlockStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:simpleType name="ResetType">
+        <xsd:annotation>
+          <xsd:documentation>Defines the reset-type-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Hard"/>
+          <xsd:enumeration value="Soft"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="ResetRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the Reset.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="type" type="tns:ResetType"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:simpleType name="ResetStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the reset-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Accepted"/>
+          <xsd:enumeration value="Rejected"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="ResetResponse">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:ResetStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:simpleType name="AvailabilityType">
+        <xsd:annotation>
+          <xsd:documentation>Defines the availability-type-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Inoperative"/>
+          <xsd:enumeration value="Operative"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="ChangeAvailabilityRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the ChangeAvailability.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="connectorId" type="xsd:int"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="type" type="tns:AvailabilityType"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:simpleType name="AvailabilityStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the availability-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Accepted"/>
+          <xsd:enumeration value="Rejected"/>
+          <xsd:enumeration value="Scheduled"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="ChangeAvailabilityResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the ChangeAvailability.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:AvailabilityStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="GetDiagnosticsRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the GetDiagnostics.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="location" type="xsd:anyURI"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="startTime" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="stopTime" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="retries" type="xsd:int"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="retryInterval" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="GetDiagnosticsResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the GetDiagnostics.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="fileName" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="ClearCacheRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the ClearCache.req PDU</xsd:documentation>
+        </xsd:annotation>
+      </xsd:complexType>
+            <xsd:simpleType name="ClearCacheStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the clear-cache-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Accepted"/>
+          <xsd:enumeration value="Rejected"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="ClearCacheResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the ClearCache.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:ClearCacheStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="UpdateFirmwareRequest">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="retrieveDate" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="location" type="xsd:anyURI"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="retries" type="xsd:int"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="retryInterval" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="UpdateFirmwareResponse">
+      </xsd:complexType>
+            <xsd:complexType name="ChangeConfigurationRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the ChangeConfiguration.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="key" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="value" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:simpleType name="ConfigurationStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the configuration-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Accepted"/>
+          <xsd:enumeration value="Rejected"/>
+          <xsd:enumeration value="NotSupported"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="ChangeConfigurationResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the ChangeConfiguration.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:ConfigurationStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="RemoteStartTransactionRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the RemoteStartTransaction.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="idTag" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:simpleType name="RemoteStartStopStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the remote-start-stop-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Accepted"/>
+          <xsd:enumeration value="Rejected"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="RemoteStartTransactionResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the RemoteStartTransaction.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:RemoteStartStopStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="RemoteStopTransactionRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the RemoteStopTransaction.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="transactionId" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="RemoteStopTransactionResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the RemoteStopTransaction.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:RemoteStartStopStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:element name="chargeBoxIdentity" type="xsd:string"/>
+            <xsd:element name="unlockConnectorRequest" type="tns:UnlockConnectorRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/unlockConnectorRequest;XSDElementDeclaration=1$MRObject" schemaObject="/0/unlockConnectorRequest;XSDElementDeclaration=1"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="unlockConnectorResponse" type="tns:UnlockConnectorResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/unlockConnectorResponse;XSDElementDeclaration=2$MRObject" schemaObject="/0/unlockConnectorResponse;XSDElementDeclaration=2"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="resetRequest" type="tns:ResetRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/resetRequest;XSDElementDeclaration=3$MRObject" schemaObject="/0/resetRequest;XSDElementDeclaration=3"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="resetResponse" type="tns:ResetResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/resetResponse;XSDElementDeclaration=4$MRObject" schemaObject="/0/resetResponse;XSDElementDeclaration=4"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="changeAvailabilityRequest" type="tns:ChangeAvailabilityRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/changeAvailabilityRequest;XSDElementDeclaration=5$MRObject" schemaObject="/0/changeAvailabilityRequest;XSDElementDeclaration=5"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="changeAvailabilityResponse" type="tns:ChangeAvailabilityResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/changeAvailabilityResponse;XSDElementDeclaration=6$MRObject" schemaObject="/0/changeAvailabilityResponse;XSDElementDeclaration=6"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="getDiagnosticsRequest" type="tns:GetDiagnosticsRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/getDiagnosticsRequest;XSDElementDeclaration=7$MRObject" schemaObject="/0/getDiagnosticsRequest;XSDElementDeclaration=7"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="getDiagnosticsResponse" type="tns:GetDiagnosticsResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/getDiagnosticsResponse;XSDElementDeclaration=8$MRObject" schemaObject="/0/getDiagnosticsResponse;XSDElementDeclaration=8"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="clearCacheRequest" type="tns:ClearCacheRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/clearCacheRequest;XSDElementDeclaration=9$MRObject" schemaObject="/0/clearCacheRequest;XSDElementDeclaration=9"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="clearCacheResponse" type="tns:ClearCacheResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/clearCacheResponse;XSDElementDeclaration=10$MRObject" schemaObject="/0/clearCacheResponse;XSDElementDeclaration=10"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="updateFirmwareRequest" type="tns:UpdateFirmwareRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/updateFirmwareRequest;XSDElementDeclaration=11$MRObject" schemaObject="/0/updateFirmwareRequest;XSDElementDeclaration=11"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="updateFirmwareResponse" type="tns:UpdateFirmwareResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/updateFirmwareResponse;XSDElementDeclaration=12$MRObject" schemaObject="/0/updateFirmwareResponse;XSDElementDeclaration=12"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="changeConfigurationRequest" type="tns:ChangeConfigurationRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/changeConfigurationRequest;XSDElementDeclaration=13$MRObject" schemaObject="/0/changeConfigurationRequest;XSDElementDeclaration=13"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="changeConfigurationResponse" type="tns:ChangeConfigurationResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/changeConfigurationResponse;XSDElementDeclaration=14$MRObject" schemaObject="/0/changeConfigurationResponse;XSDElementDeclaration=14"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="remoteStartTransactionRequest" type="tns:RemoteStartTransactionRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/remoteStartTransactionRequest;XSDElementDeclaration=15$MRObject" schemaObject="/0/remoteStartTransactionRequest;XSDElementDeclaration=15"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="remoteStartTransactionResponse" type="tns:RemoteStartTransactionResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/remoteStartTransactionResponse;XSDElementDeclaration=16$MRObject" schemaObject="/0/remoteStartTransactionResponse;XSDElementDeclaration=16"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="remoteStopTransactionRequest" type="tns:RemoteStopTransactionRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/remoteStopTransactionRequest;XSDElementDeclaration=17$MRObject" schemaObject="/0/remoteStopTransactionRequest;XSDElementDeclaration=17"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="remoteStopTransactionResponse" type="tns:RemoteStopTransactionResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/remoteStopTransactionResponse;XSDElementDeclaration=18$MRObject" schemaObject="/0/remoteStopTransactionResponse;XSDElementDeclaration=18"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+        </xsd:schema>

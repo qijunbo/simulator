@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema elementFormDefault="qualified" targetNamespace="urn://Ocpp/Cs/2012/06/" xmlns:tns="urn://Ocpp/Cs/2012/06/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="headType">
+		<xs:sequence>
+			<xs:element name="chargeBoxIdentity" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IdTokenType">
+		<xs:annotation>
+			<xs:documentation>Type of string defining identification token, e.g. RFID or credit card number. To be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="authorizeRequestBodyType">
+		<xs:sequence>
+			<xs:element name="authorizeRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="idTag" type="tns:IdTokenType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="startTransactionRequestType">
+		<xs:sequence>
+			<xs:element name="startTransactionRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="connectorId" type="xs:int"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="idTag" type="tns:IdTokenType"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="timestamp" type="xs:dateTime"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="meterStart" type="xs:int"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="reservationId" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="UnitOfMeasureType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Wh"/>
+			<xs:enumeration value="kWh"/>
+			<xs:enumeration value="varh"/>
+			<xs:enumeration value="kvarh"/>
+			<xs:enumeration value="W"/>
+			<xs:enumeration value="kW"/>
+			<xs:enumeration value="var"/>
+			<xs:enumeration value="kvar"/>
+			<xs:enumeration value="Amp"/>
+			<xs:enumeration value="Volt"/>
+			<xs:enumeration value="Celsius"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LocationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Inlet"/>
+			<xs:enumeration value="Outlet"/>
+			<xs:enumeration value="Body"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MeasurandType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Energy.Active.Export.Register"/>
+			<xs:enumeration value="Energy.Active.Import.Register"/>
+			<xs:enumeration value="Energy.Reactive.Export.Register"/>
+			<xs:enumeration value="Energy.Reactive.Import.Register"/>
+			<xs:enumeration value="Energy.Active.Export.Interval"/>
+			<xs:enumeration value="Energy.Active.Import.Interval"/>
+			<xs:enumeration value="Energy.Reactive.Export.Interval"/>
+			<xs:enumeration value="Energy.Reactive.Import.Interval"/>
+			<xs:enumeration value="Power.Active.Export"/>
+			<xs:enumeration value="Power.Active.Import"/>
+			<xs:enumeration value="Power.Reactive.Export"/>
+			<xs:enumeration value="Power.Reactive.Import"/>
+			<xs:enumeration value="Current.Export"/>
+			<xs:enumeration value="Current.Import"/>
+			<xs:enumeration value="Voltage"/>
+			<xs:enumeration value="Temperature"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ValueFormatType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Raw"/>
+			<xs:enumeration value="SignedData"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReadingContextType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Interruption.Begin"/>
+			<xs:enumeration value="Interruption.End"/>
+			<xs:enumeration value="Sample.Clock"/>
+			<xs:enumeration value="Sample.Periodic"/>
+			<xs:enumeration value="Transaction.Begin"/>
+			<xs:enumeration value="Transaction.End"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="MeterValueType">
+		<xs:annotation>
+			<xs:documentation>Defines single value of the meter-value-value</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="timestamp" type="xs:dateTime"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="value">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="context" type="tns:ReadingContextType" use="optional"/>
+							<!-- default="Sample.Periodic" -->
+							<xs:attribute name="format" type="tns:ValueFormatType" use="optional"/>
+							<!-- default="Raw" -->
+							<xs:attribute name="measurand" type="tns:MeasurandType" use="optional"/>
+							<!-- default="Energy.Active.Import.Register" -->
+							<xs:attribute name="location" type="tns:LocationType" use="optional"/>
+							<!-- default="Outlet" -->
+							<xs:attribute name="unit" type="tns:UnitOfMeasureType" use="optional"/>
+							<!-- default="Wh" -->
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TransactionDataType">
+		<xs:annotation>
+			<xs:documentation>This contains transaction usage details relevant for billing purposes in StopTransaction.req PDU</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="values" type="tns:MeterValueType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="stopTransactionRequestType">
+		<xs:sequence>
+			<xs:element name="stopTransactionRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="transactionId" type="xs:int"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="idTag" type="tns:IdTokenType"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="timestamp" type="xs:dateTime"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="meterStop" type="xs:int"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="transactionData" type="tns:TransactionDataType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="heartbeatRequestType">
+		<xs:sequence>
+			<xs:element name="heartbeatRequest" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="meterValuesRequestType">
+		<xs:sequence>
+			<xs:element name="meterValuesRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="connectorId" type="xs:int"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="transactionId" type="xs:int"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="values" type="tns:MeterValueType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ChargePointVendorType">
+		<xs:annotation>
+			<xs:documentation>String type of max 20 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChargePointModelType">
+		<xs:annotation>
+			<xs:documentation>String type of max 20 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChargePointSerialNumberType">
+		<xs:annotation>
+			<xs:documentation>String type of max 25 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChargeBoxSerialNumberType">
+		<xs:annotation>
+			<xs:documentation>String type of max 25 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FirmwareVersionType">
+		<xs:annotation>
+			<xs:documentation>String type of max 50 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IccidStringType">
+		<xs:annotation>
+			<xs:documentation>String type of max 20 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ImsiStringType">
+		<xs:annotation>
+			<xs:documentation>String type of max 20 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MeterTypeType">
+		<xs:annotation>
+			<xs:documentation>String type of max 25 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MeterSerialNumberType">
+		<xs:annotation>
+			<xs:documentation>String type of max 25 chars that is to be treated as case insensitive.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="bootNotificationRequestType">
+		<xs:sequence>
+			<xs:element name="bootNotificationRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="chargePointVendor" type="tns:ChargePointVendorType"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="chargePointModel" type="tns:ChargePointModelType"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="chargePointSerialNumber" type="tns:ChargePointSerialNumberType"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="chargeBoxSerialNumber" type="tns:ChargeBoxSerialNumberType"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="firmwareVersion" type="tns:FirmwareVersionType"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="iccid" type="tns:IccidStringType"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="imsi" type="tns:ImsiStringType"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="meterType" type="tns:MeterTypeType"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="meterSerialNumber" type="tns:MeterSerialNumberType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ChargePointStatusType">
+		<xs:annotation>
+			<xs:documentation>Defines the charge-point-status-value</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Available"/>
+			<xs:enumeration value="Occupied"/>
+			<xs:enumeration value="Faulted"/>
+			<xs:enumeration value="Unavailable"/>
+			<xs:enumeration value="Reserved"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChargePointErrorCodeType">
+		<xs:annotation>
+			<xs:documentation>Defines the charge-point-error-value</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ConnectorLockFailure"/>
+			<xs:enumeration value="HighTemperature"/>
+			<xs:enumeration value="Mode3Error"/>
+			<xs:enumeration value="NoError"/>
+			<xs:enumeration value="PowerMeterFailure"/>
+			<xs:enumeration value="PowerSwitchFailure"/>
+			<xs:enumeration value="ReaderFailure"/>
+			<xs:enumeration value="ResetFailure"/>
+			<xs:enumeration value="GroundFailure"/>
+			<xs:enumeration value="OverCurrentFailure"/>
+			<xs:enumeration value="UnderVoltage"/>
+			<xs:enumeration value="WeakSignal"/>
+			<xs:enumeration value="OtherError"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="statusNotificationRequestType">
+		<xs:sequence>
+			<xs:element name="statusNotificationRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="connectorId" type="xs:int"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="status" type="tns:ChargePointStatusType"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="errorCode" type="tns:ChargePointErrorCodeType"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="info" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="timestamp" type="xs:dateTime"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="vendorId" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="vendorErrorCode" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="firmwareStatusNotificationRequestType">
+		<xs:sequence>
+			<xs:element name="firmwareStatusNotificationRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="status">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Downloaded"/>
+									<xs:enumeration value="DownloadFailed"/>
+									<xs:enumeration value="InstallationFailed"/>
+									<xs:enumeration value="Installed"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="diagnosticsStatusNotificationRequestType">
+		<xs:sequence>
+			<xs:element name="diagnosticsStatusNotificationRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="status">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Uploaded"/>
+									<xs:enumeration value="UploadFailed"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="dataTransferRequestType">
+		<xs:sequence>
+			<xs:element name="dataTransferRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="vendorId" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="messageId" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="data" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:element name="headType" type="tns:headType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/headType;XSDElementDeclaration$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="authorizeRequestBodyType" type="tns:authorizeRequestBodyType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/authorizeRequestBodyType;XSDElementDeclaration=1$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="startTransactionRequestType" type="tns:startTransactionRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/startTransactionRequestType;XSDElementDeclaration=2$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="MeterValueType" type="tns:MeterValueType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/MeterValueType;XSDElementDeclaration=3$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="TransactionDataType" type="tns:TransactionDataType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/TransactionDataType;XSDElementDeclaration=4$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="stopTransactionRequestType" type="tns:stopTransactionRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/stopTransactionRequestType;XSDElementDeclaration=5$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="heartbeatRequestType" type="tns:heartbeatRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/heartbeatRequestType;XSDElementDeclaration=6$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="meterValuesRequestType" type="tns:meterValuesRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/meterValuesRequestType;XSDElementDeclaration=7$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="bootNotificationRequestType" type="tns:bootNotificationRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/bootNotificationRequestType;XSDElementDeclaration=8$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="statusNotificationRequestType" type="tns:statusNotificationRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/statusNotificationRequestType;XSDElementDeclaration=9$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="firmwareStatusNotificationRequestType" type="tns:firmwareStatusNotificationRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/firmwareStatusNotificationRequestType;XSDElementDeclaration=10$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="diagnosticsStatusNotificationRequestType" type="tns:diagnosticsStatusNotificationRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/diagnosticsStatusNotificationRequestType;XSDElementDeclaration=11$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="dataTransferRequestType" type="tns:dataTransferRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/dataTransferRequestType;XSDElementDeclaration=12$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

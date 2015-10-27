@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+OCPP Central System service description
+Version 1.5 draft for approval (1.5 RC4)
+
+Copyright e-laad.nl. Free to use without modifications.
+
+See: http://ev-services.net/ocpp/
+--><wsdl:definitions targetNamespace="urn://Ocpp/Cs/2012/06/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn://Ocpp/Cs/2012/06/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <wsdl:documentation>
+    <wsdl:appinfo source="WMQI_APPINFO">
+      <MRWSDLAppInfo imported="true">
+        <generatedMXSD location="ocpp_centralsystemservice_1.5_final_InlineSchema1.mxsd"/>
+        <binding hasEncoding="false" imported="true" name="CentralSystemServiceSoap" originalBindingStyle="document"/>
+      </MRWSDLAppInfo>
+    </wsdl:appinfo>
+  </wsdl:documentation>
+  
+  <wsp:Policy wsu:Id="ServicePolicy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing/>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  
+	<wsdl:types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="urn://Ocpp/Cs/2012/06/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- Begin of types shared with ChargePointService --><!-- End of types shared with ChargePointService --><xsd:include schemaLocation="ocpp_centralsystemservice_1.5_final_InlineSchema1.mxsd"/>
+    </xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="Header">
+		<wsdl:part element="tns:chargeBoxIdentity" name="ChargeBoxIdentity"/>
+	</wsdl:message>
+	<wsdl:message name="AuthorizeInput">
+		<wsdl:part element="tns:authorizeRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="AuthorizeOutput">
+		<wsdl:part element="tns:authorizeResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="StartTransactionInput">
+		<wsdl:part element="tns:startTransactionRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="StartTransactionOutput">
+		<wsdl:part element="tns:startTransactionResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="StopTransactionInput">
+		<wsdl:part element="tns:stopTransactionRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="StopTransactionOutput">
+		<wsdl:part element="tns:stopTransactionResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="HeartbeatInput">
+		<wsdl:part element="tns:heartbeatRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="HeartbeatOutput">
+		<wsdl:part element="tns:heartbeatResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="MeterValuesInput">
+		<wsdl:part element="tns:meterValuesRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="MeterValuesOutput">
+		<wsdl:part element="tns:meterValuesResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="BootNotificationInput">
+		<wsdl:part element="tns:bootNotificationRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="BootNotificationOutput">
+		<wsdl:part element="tns:bootNotificationResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="StatusNotificationInput">
+		<wsdl:part element="tns:statusNotificationRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="StatusNotificationOutput">
+		<wsdl:part element="tns:statusNotificationResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="FirmwareStatusNotificationInput">
+		<wsdl:part element="tns:firmwareStatusNotificationRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="FirmwareStatusNotificationOutput">
+		<wsdl:part element="tns:firmwareStatusNotificationResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="DiagnosticsStatusNotificationInput">
+		<wsdl:part element="tns:diagnosticsStatusNotificationRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="DiagnosticsStatusNotificationOutput">
+		<wsdl:part element="tns:diagnosticsStatusNotificationResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="DataTransferInput">
+		<wsdl:part element="tns:dataTransferRequest" name="parameters"/>
+	</wsdl:message>
+	<wsdl:message name="DataTransferOutput">
+		<wsdl:part element="tns:dataTransferResponse" name="parameters"/>
+	</wsdl:message>
+	<wsdl:portType name="CentralSystemService">
+		<wsdl:operation name="Authorize">
+			<wsdl:input message="tns:AuthorizeInput" wsaw:Action="/Authorize"/>
+			<wsdl:output message="tns:AuthorizeOutput" wsaw:Action="/AuthorizeResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="StartTransaction">
+			<wsdl:input message="tns:StartTransactionInput" wsaw:Action="/StartTransaction"/>
+			<wsdl:output message="tns:StartTransactionOutput" wsaw:Action="/StartTransactionResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="StopTransaction">
+			<wsdl:input message="tns:StopTransactionInput" wsaw:Action="/StopTransaction"/>
+			<wsdl:output message="tns:StopTransactionOutput" wsaw:Action="/StopTransactionResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="Heartbeat">
+			<wsdl:input message="tns:HeartbeatInput" wsaw:Action="/Heartbeat"/>
+			<wsdl:output message="tns:HeartbeatOutput" wsaw:Action="/HeartbeatResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="MeterValues">
+			<wsdl:input message="tns:MeterValuesInput" wsaw:Action="/MeterValues"/>
+			<wsdl:output message="tns:MeterValuesOutput" wsaw:Action="/MeterValuesResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="BootNotification">
+			<wsdl:input message="tns:BootNotificationInput" wsaw:Action="/BootNotification"/>
+			<wsdl:output message="tns:BootNotificationOutput" wsaw:Action="/BootNotificationResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="StatusNotification">
+			<wsdl:input message="tns:StatusNotificationInput" wsaw:Action="/StatusNotification"/>
+			<wsdl:output message="tns:StatusNotificationOutput" wsaw:Action="/StatusNotificationResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="FirmwareStatusNotification">
+			<wsdl:input message="tns:FirmwareStatusNotificationInput" wsaw:Action="/FirmwareStatusNotification"/>
+			<wsdl:output message="tns:FirmwareStatusNotificationOutput" wsaw:Action="/FirmwareStatusNotificationResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="DiagnosticsStatusNotification">
+			<wsdl:input message="tns:DiagnosticsStatusNotificationInput" wsaw:Action="/DiagnosticsStatusNotification"/>
+			<wsdl:output message="tns:DiagnosticsStatusNotificationOutput" wsaw:Action="/DiagnosticsStatusNotificationResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="DataTransfer">
+			<wsdl:input message="tns:DataTransferInput" wsaw:Action="/DataTransfer"/>
+			<wsdl:output message="tns:DataTransferOutput" wsaw:Action="/DataTransferResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CentralSystemServiceSoap" type="tns:CentralSystemService">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsp:PolicyReference URI="#ServicePolicy"/>
+		<wsdl:operation name="Authorize">
+			<soap12:operation soapAction="/Authorize" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="StartTransaction">
+			<soap12:operation soapAction="/StartTransaction" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="StopTransaction">
+			<soap12:operation soapAction="/StopTransaction" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Heartbeat">
+			<soap12:operation soapAction="/Heartbeat" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="MeterValues">
+			<soap12:operation soapAction="/MeterValues" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="BootNotification">
+			<soap12:operation soapAction="/BootNotification" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="StatusNotification">
+			<soap12:operation soapAction="/StatusNotification" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="FirmwareStatusNotification">
+			<soap12:operation soapAction="/FirmwareStatusNotification" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DiagnosticsStatusNotification">
+			<soap12:operation soapAction="/DiagnosticsStatusNotification" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="DataTransfer">
+			<soap12:operation soapAction="/DataTransfer" style="document"/>
+			<wsdl:input>
+				<soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+  <!-- The OCPP Central System Service -->
+	<wsdl:service name="CentralSystemService">
+		<wsdl:documentation>The Central System Service for the Open Charge Point Protocol</wsdl:documentation>
+		<wsdl:port binding="tns:CentralSystemServiceSoap" name="CentralSystemServiceSoap12">
+			<soap12:address location="http://localhost/Ocpp/CentralSystemService/"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema targetNamespace="urn://Ocpp/Cp/2010/08/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenv12="http://www.w3.org/2003/05/soap-envelope" xmlns:tns="urn://Ocpp/Cp/2010/08/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import namespace="http://www.w3.org/2003/05/soap-envelope" schemaLocation="../../../../org/w3/www/_2003/_05/soapenvelope/soapenv12.mxsd"/>
+  <xsd:include schemaLocation="ChargePointService_InlineSchema1.mxsd"/>
+
+<!-- BEGIN Global group petaining to all wsdl:message definitions -->
+<!-- END Global group -->
+
+
+<!-- BEGIN Message Definitions for the wsdl:operations  -->
+<!-- END Message Definitions -->
+
+
+</xsd:schema>

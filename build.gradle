@@ -1,0 +1,161 @@
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+def getDateTime() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMDDHHmm");
+		return format.format(new Date());
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+    	classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+        classpath('com.google.code.gson:gson:2.3.1') 
+    }
+}
+
+allprojects {
+	apply plugin: 'eclipse'
+
+  eclipse {
+    classpath {
+      //customizing the classes output directory:
+      defaultOutputDir = file('build')
+    }
+  }
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'jdepend'
+	apply plugin: 'eclipse'
+	sourceCompatibility = 1.7
+	targetCompatibility = 1.7
+
+	ext {
+		servletApiVersion = '3.0.1'
+		springVersion = '4.1.6.RELEASE'
+		mongodbVersion = '1.6.2.RELEASE'
+		currentTime = getDateTime()
+	}
+
+	dependencies {
+
+	}
+
+	tasks.withType(JavaCompile) {
+		options.encoding = "UTF-8"
+	}
+
+	repositories {
+		mavenCentral()
+	}
+}
+
+project(':smart-simulator-common') {
+	dependencies {
+ 
+		//compile "org.springframework:spring-tx:$springVersion"
+    	//compile "org.springframework:spring-beans:$springVersion"
+    	//compile "org.springframework:spring-orm:$springVersion"
+    	//compile "org.springframework:spring-aop:$springVersion"	
+    	
+	}
+}
+
+project(':smart-simulator-db') {
+	dependencies {
+ 
+		//compile "org.springframework:spring-tx:$springVersion"
+    	//compile "org.springframework:spring-beans:$springVersion"
+    	//compile "org.springframework:spring-orm:$springVersion"
+    	//compile "org.springframework:spring-aop:$springVersion"	
+    	
+	}
+}
+ 
+
+project(':smart-simulator-server') {
+
+	dependencies {
+		compile project(":smart-simulator-common")
+		compile ('com.google.code.gson:gson:2.3.1')
+		compile ("org.apache.httpcomponents:httpclient:4.4.1")
+		compile ('commons-logging:commons-logging:1.2')
+   		compile "org.springframework:spring-webmvc:$springVersion"
+   		compile "org.springframework.data:spring-data-mongodb:$mongodbVersion"
+	}
+}
+
+
+project(':smart-simulator-ocpp12') {
+	dependencies {
+		compile project(":smart-simulator-server") 
+	}
+}
+
+project(':smart-simulator-ocpp15') {
+	dependencies {
+		compile project(":smart-simulator-server")
+	}
+}
+
+
+
+project(':smart-simulator-springboot') {
+	apply plugin: 'spring-boot'
+	dependencies {
+		compile project(":smart-simulator-ocpp12")
+		compile project(":smart-simulator-ocpp15")
+		compile ("org.springframework.boot:spring-boot-starter-web")
+		compile ("org.springframework.boot:spring-boot-starter-data-mongodb")
+	}
+	jar {
+	    baseName = 'smart-simulator'  
+	    version =  '3.1.0-' + currentTime
+	}
+}
+
+project(':smart-simulator-springmvc') {
+ 	apply plugin: 'war'
+	apply plugin: 'eclipse-wtp'
+	dependencies {
+
+		compile project(":smart-simulator-ocpp12")
+		compile project(":smart-simulator-ocpp15")
+		compile "org.springframework.data:spring-data-mongodb:$mongodbVersion"
+   		compile "org.springframework:spring-webmvc:$springVersion"
+   		//compile 'org.springframework:spring-context:$springVersion'
+	   	compile "javax.servlet:javax.servlet-api:3.0.1"
+	    providedCompile "javax.servlet:javax.servlet-api:3.0.1"
+	}
+	war {
+	    baseName = 'smart-simulator'
+	    version =  '3.1-' + currentTime
+	}
+	
+}
+
+project(':smart-simulator-web') {
+	apply plugin: 'war'
+	apply plugin: 'eclipse-wtp'
+	
+	dependencies {
+		//runtime files('../libs/db2jcc4.jar')
+	}
+	war {
+	    baseName = 'smart-simulator-client'
+	    version =  '3.1.0'
+	}
+ 
+}
+
+

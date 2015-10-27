@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+OCPP Central System service description
+Version 1.5 draft for approval (1.5 RC4)
+
+Copyright e-laad.nl. Free to use without modifications.
+
+See: http://ev-services.net/ocpp/
+-->
+<xsd:schema elementFormDefault="qualified" targetNamespace="urn://Ocpp/Cs/2012/06/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn://Ocpp/Cs/2012/06/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Begin of types shared with ChargePointService -->
+	<!-- End of types shared with ChargePointService -->
+	<xsd:simpleType name="IdToken">
+		<xsd:annotation>
+			<xsd:documentation>Type of string defining identification token, e.g. RFID or credit card number. To be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AuthorizationStatus">
+		<xsd:annotation>
+			<xsd:documentation>Defines the authorization-status-value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Accepted"/>
+			<xsd:enumeration value="Blocked"/>
+			<xsd:enumeration value="Expired"/>
+			<xsd:enumeration value="Invalid"/>
+			<xsd:enumeration value="ConcurrentTx"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="IdTagInfo">
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:AuthorizationStatus"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="expiryDate" type="xsd:dateTime"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="parentIdTag" type="tns:IdToken"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="ChargeBoxSerialNumber">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 25 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChargePointModel">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 20 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChargePointSerialNumber">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 25 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChargePointVendor">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 20 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FirmwareVersion">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 50 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="IccidString">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 20 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ImsiString">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 20 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MeterSerialNumber">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 25 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MeterType">
+		<xsd:annotation>
+			<xsd:documentation>String type of max 25 chars that is to be treated as case insensitive.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="25"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="AuthorizeRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the Authorize.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="idTag" type="tns:IdToken"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AuthorizeResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the Authorize.conf PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="idTagInfo" type="tns:IdTagInfo"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StartTransactionRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the StartTransaction.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="connectorId" type="xsd:int"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="idTag" type="tns:IdToken"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="timestamp" type="xsd:dateTime"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="meterStart" type="xsd:int"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="reservationId" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StartTransactionResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the StartTransaction.conf PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="transactionId" type="xsd:int"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="idTagInfo" type="tns:IdTagInfo"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TransactionData">
+		<xsd:annotation>
+			<xsd:documentation>This contains transaction usage details relevant for billing purposes in StopTransaction.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="values" type="tns:MeterValue"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StopTransactionRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the StopTransaction.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="transactionId" type="xsd:int"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="idTag" type="tns:IdToken"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="timestamp" type="xsd:dateTime"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="meterStop" type="xsd:int"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="transactionData" type="tns:TransactionData"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StopTransactionResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the StopTransaction.conf PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="0" name="idTagInfo" type="tns:IdTagInfo"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HeartbeatRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the Heartbeat.req PDU</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+	<xsd:complexType name="HeartbeatResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the Heartbeat.conf PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="currentTime" type="xsd:dateTime"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="ReadingContext">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Interruption.Begin"/>
+			<xsd:enumeration value="Interruption.End"/>
+			<xsd:enumeration value="Sample.Clock"/>
+			<xsd:enumeration value="Sample.Periodic"/>
+			<xsd:enumeration value="Transaction.Begin"/>
+			<xsd:enumeration value="Transaction.End"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Measurand">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Energy.Active.Export.Register"/>
+			<xsd:enumeration value="Energy.Active.Import.Register"/>
+			<xsd:enumeration value="Energy.Reactive.Export.Register"/>
+			<xsd:enumeration value="Energy.Reactive.Import.Register"/>
+			<xsd:enumeration value="Energy.Active.Export.Interval"/>
+			<xsd:enumeration value="Energy.Active.Import.Interval"/>
+			<xsd:enumeration value="Energy.Reactive.Export.Interval"/>
+			<xsd:enumeration value="Energy.Reactive.Import.Interval"/>
+			<xsd:enumeration value="Power.Active.Export"/>
+			<xsd:enumeration value="Power.Active.Import"/>
+			<xsd:enumeration value="Power.Reactive.Export"/>
+			<xsd:enumeration value="Power.Reactive.Import"/>
+			<xsd:enumeration value="Current.Export"/>
+			<xsd:enumeration value="Current.Import"/>
+			<xsd:enumeration value="Voltage"/>
+			<xsd:enumeration value="Temperature"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ValueFormat">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Raw"/>
+			<xsd:enumeration value="SignedData"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnitOfMeasure">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Wh"/>
+			<xsd:enumeration value="kWh"/>
+			<xsd:enumeration value="varh"/>
+			<xsd:enumeration value="kvarh"/>
+			<xsd:enumeration value="W"/>
+			<xsd:enumeration value="kW"/>
+			<xsd:enumeration value="var"/>
+			<xsd:enumeration value="kvar"/>
+			<xsd:enumeration value="Amp"/>
+			<xsd:enumeration value="Volt"/>
+			<xsd:enumeration value="Celsius"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Location">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Inlet"/>
+			<xsd:enumeration value="Outlet"/>
+			<xsd:enumeration value="Body"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="MeterValue">
+		<xsd:annotation>
+			<xsd:documentation>Defines single value of the meter-value-value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="timestamp" type="xsd:dateTime"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="1" name="value">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="xsd:string">
+							<xsd:attribute name="context" type="tns:ReadingContext" use="optional"/>
+							<!-- default="Sample.Periodic" -->
+							<xsd:attribute name="format" type="tns:ValueFormat" use="optional"/>
+							<!-- default="Raw" -->
+							<xsd:attribute name="measurand" type="tns:Measurand" use="optional"/>
+							<!-- default="Energy.Active.Import.Register" -->
+							<xsd:attribute name="location" type="tns:Location" use="optional"/>
+							<!-- default="Outlet" -->
+							<xsd:attribute name="unit" type="tns:UnitOfMeasure" use="optional"/>
+							<!-- default="Wh" -->
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterValuesRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the MeterValues.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="connectorId" type="xsd:int"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="transactionId" type="xsd:int"/>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="values" type="tns:MeterValue"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MeterValuesResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the MeterValues.conf PDU</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+	<xsd:complexType name="BootNotificationRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the BootNotification.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="chargePointVendor" type="tns:ChargePointVendor"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="chargePointModel" type="tns:ChargePointModel"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="chargePointSerialNumber" type="tns:ChargePointSerialNumber"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="chargeBoxSerialNumber" type="tns:ChargeBoxSerialNumber"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="firmwareVersion" type="tns:FirmwareVersion"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="iccid" type="tns:IccidString"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="imsi" type="tns:ImsiString"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="meterType" type="tns:MeterType"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="meterSerialNumber" type="tns:MeterSerialNumber"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="RegistrationStatus">
+		<xsd:annotation>
+			<xsd:documentation>Defines the registration-status-value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Accepted"/>
+			<xsd:enumeration value="Rejected"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="BootNotificationResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the BootNotification.conf PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:RegistrationStatus"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="currentTime" type="xsd:dateTime"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="heartbeatInterval" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="ChargePointErrorCode">
+		<xsd:annotation>
+			<xsd:documentation>Defines the charge-point-error-value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ConnectorLockFailure"/>
+			<xsd:enumeration value="HighTemperature"/>
+			<xsd:enumeration value="Mode3Error"/>
+			<xsd:enumeration value="NoError"/>
+			<xsd:enumeration value="PowerMeterFailure"/>
+			<xsd:enumeration value="PowerSwitchFailure"/>
+			<xsd:enumeration value="ReaderFailure"/>
+			<xsd:enumeration value="ResetFailure"/>
+			<xsd:enumeration value="GroundFailure"/>
+			<xsd:enumeration value="OverCurrentFailure"/>
+			<xsd:enumeration value="UnderVoltage"/>
+			<xsd:enumeration value="WeakSignal"/>
+			<xsd:enumeration value="OtherError"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChargePointStatus">
+		<xsd:annotation>
+			<xsd:documentation>Defines the charge-point-status-value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Available"/>
+			<xsd:enumeration value="Occupied"/>
+			<xsd:enumeration value="Faulted"/>
+			<xsd:enumeration value="Unavailable"/>
+			<xsd:enumeration value="Reserved"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="StatusNotificationRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the StatusNotification.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="connectorId" type="xsd:int"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:ChargePointStatus"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="errorCode" type="tns:ChargePointErrorCode"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="info" type="xsd:string"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="timestamp" type="xsd:dateTime"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="vendorId" type="xsd:string"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="vendorErrorCode" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StatusNotificationResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the StatusNotification.conf PDU</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+	<xsd:simpleType name="FirmwareStatus">
+		<xsd:annotation>
+			<xsd:documentation>Defines the firmware-status-value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Downloaded"/>
+			<xsd:enumeration value="DownloadFailed"/>
+			<xsd:enumeration value="InstallationFailed"/>
+			<xsd:enumeration value="Installed"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="FirmwareStatusNotificationRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the FirmwareStatusNotification.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:FirmwareStatus"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FirmwareStatusNotificationResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the FirmwareStatusNotification.conf PDU</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+	<xsd:simpleType name="DiagnosticsStatus">
+		<xsd:annotation>
+			<xsd:documentation>Defines the diagnostics-status-value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Uploaded"/>
+			<xsd:enumeration value="UploadFailed"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="DiagnosticsStatusNotificationRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the DiagnosticsStatusNotification.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:DiagnosticsStatus"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DiagnosticsStatusNotificationResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the DiagnosticsStatusNotification.conf PDU</xsd:documentation>
+		</xsd:annotation>
+	</xsd:complexType>
+	<xsd:complexType name="DataTransferRequest">
+		<xsd:annotation>
+			<xsd:documentation>Defines the DataTransfer.req PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="vendorId" type="xsd:string"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="messageId" type="xsd:string"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="data" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="DataTransferStatus">
+		<xsd:annotation>
+			<xsd:documentation>Defines the status returned in DataTransfer.conf</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Accepted"/>
+			<xsd:enumeration value="Rejected"/>
+			<xsd:enumeration value="UnknownMessageId"/>
+			<xsd:enumeration value="UnknownVendorId"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="DataTransferResponse">
+		<xsd:annotation>
+			<xsd:documentation>Defines the DataTransfer.conf PDU</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:DataTransferStatus"/>
+			<xsd:element maxOccurs="1" minOccurs="0" name="data" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="chargeBoxIdentity" type="xsd:string"/>
+	<xsd:element name="authorizeRequest" type="tns:AuthorizeRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/authorizeRequest;XSDElementDeclaration=1$MRObject" schemaObject="/0/authorizeRequest;XSDElementDeclaration=1"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="authorizeResponse" type="tns:AuthorizeResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/authorizeResponse;XSDElementDeclaration=2$MRObject" schemaObject="/0/authorizeResponse;XSDElementDeclaration=2"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="startTransactionRequest" type="tns:StartTransactionRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/startTransactionRequest;XSDElementDeclaration=3$MRObject" schemaObject="/0/startTransactionRequest;XSDElementDeclaration=3"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="startTransactionResponse" type="tns:StartTransactionResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/startTransactionResponse;XSDElementDeclaration=4$MRObject" schemaObject="/0/startTransactionResponse;XSDElementDeclaration=4"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="stopTransactionRequest" type="tns:StopTransactionRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/stopTransactionRequest;XSDElementDeclaration=5$MRObject" schemaObject="/0/stopTransactionRequest;XSDElementDeclaration=5"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="stopTransactionResponse" type="tns:StopTransactionResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/stopTransactionResponse;XSDElementDeclaration=6$MRObject" schemaObject="/0/stopTransactionResponse;XSDElementDeclaration=6"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="heartbeatRequest" type="tns:HeartbeatRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/heartbeatRequest;XSDElementDeclaration=7$MRObject" schemaObject="/0/heartbeatRequest;XSDElementDeclaration=7"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="heartbeatResponse" type="tns:HeartbeatResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/heartbeatResponse;XSDElementDeclaration=8$MRObject" schemaObject="/0/heartbeatResponse;XSDElementDeclaration=8"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="meterValuesRequest" type="tns:MeterValuesRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/meterValuesRequest;XSDElementDeclaration=9$MRObject" schemaObject="/0/meterValuesRequest;XSDElementDeclaration=9"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="meterValuesResponse" type="tns:MeterValuesResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/meterValuesResponse;XSDElementDeclaration=10$MRObject" schemaObject="/0/meterValuesResponse;XSDElementDeclaration=10"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="bootNotificationRequest" type="tns:BootNotificationRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/bootNotificationRequest;XSDElementDeclaration=11$MRObject" schemaObject="/0/bootNotificationRequest;XSDElementDeclaration=11"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="bootNotificationResponse" type="tns:BootNotificationResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/bootNotificationResponse;XSDElementDeclaration=12$MRObject" schemaObject="/0/bootNotificationResponse;XSDElementDeclaration=12"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="statusNotificationRequest" type="tns:StatusNotificationRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/statusNotificationRequest;XSDElementDeclaration=13$MRObject" schemaObject="/0/statusNotificationRequest;XSDElementDeclaration=13"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="statusNotificationResponse" type="tns:StatusNotificationResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/statusNotificationResponse;XSDElementDeclaration=14$MRObject" schemaObject="/0/statusNotificationResponse;XSDElementDeclaration=14"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="firmwareStatusNotificationRequest" type="tns:FirmwareStatusNotificationRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/firmwareStatusNotificationRequest;XSDElementDeclaration=15$MRObject" schemaObject="/0/firmwareStatusNotificationRequest;XSDElementDeclaration=15"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="firmwareStatusNotificationResponse" type="tns:FirmwareStatusNotificationResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/firmwareStatusNotificationResponse;XSDElementDeclaration=16$MRObject" schemaObject="/0/firmwareStatusNotificationResponse;XSDElementDeclaration=16"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="diagnosticsStatusNotificationRequest" type="tns:DiagnosticsStatusNotificationRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/diagnosticsStatusNotificationRequest;XSDElementDeclaration=17$MRObject" schemaObject="/0/diagnosticsStatusNotificationRequest;XSDElementDeclaration=17"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="diagnosticsStatusNotificationResponse" type="tns:DiagnosticsStatusNotificationResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/diagnosticsStatusNotificationResponse;XSDElementDeclaration=18$MRObject" schemaObject="/0/diagnosticsStatusNotificationResponse;XSDElementDeclaration=18"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="dataTransferRequest" type="tns:DataTransferRequest">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/dataTransferRequest;XSDElementDeclaration=19$MRObject" schemaObject="/0/dataTransferRequest;XSDElementDeclaration=19"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="dataTransferResponse" type="tns:DataTransferResponse">
+		<xsd:annotation>
+			<xsd:appinfo source="WMQI_APPINFO">
+				<MRMessage messageDefinition="/0/dataTransferResponse;XSDElementDeclaration=20$MRObject" schemaObject="/0/dataTransferResponse;XSDElementDeclaration=20"/>
+			</xsd:appinfo>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+Copyright Logica 2010
+
+All rights reserved. This document is protected by international copyright law and may not be reprinted,
+reproduced, copied or utilised in whole or in part by any means including electronic, mechanical,
+or other means without the prior written consent of Logica. 
+
+
+Whilst reasonable care has been taken by Logica to ensure the information contained herein is
+reasonably accurate, Logica shall not, under any circumstances be liable for any loss or damage
+(direct or consequential) suffered by any party as a result of the contents of this publication or
+the reliance of any party thereon or any inaccuracy or omission therein. The information in this
+document is therefore provided on an "as is" basis without warranty and is subject to change
+without further notice and cannot be construed as a commitment by Logica. 
+
+
+The products mentioned in this document are identified by the names, trademarks, service marks and
+logos of their respective companies or organisations and may not be used in any advertising or publicity
+or in any other way whatsoever without the prior written consent of those companies or organisations
+and Logica.
+--><wsdl:definitions targetNamespace="urn://Ocpp/Cp/2010/08/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn://Ocpp/Cp/2010/08/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <wsdl:documentation>
+    <wsdl:appinfo source="WMQI_APPINFO">
+      <MRWSDLAppInfo imported="true">
+        <generatedMXSD location="ChargePointService_InlineSchema1.mxsd"/>
+        <binding hasEncoding="false" imported="true" name="ChargePointServiceSoap" originalBindingStyle="document"/>
+      </MRWSDLAppInfo>
+    </wsdl:appinfo>
+  </wsdl:documentation>
+
+  <wsp:Policy wsu:Id="ServicePolicy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing/>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="urn://Ocpp/Cp/2010/08/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:include schemaLocation="ChargePointService_InlineSchema1.mxsd"/>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="Header">
+    <wsdl:part element="tns:chargeBoxIdentity" name="ChargeBoxIdentity"/>
+  </wsdl:message>
+
+  <wsdl:message name="UnlockConnectorInput">
+    <wsdl:part element="tns:unlockConnectorRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="UnlockConnectorOutput">
+    <wsdl:part element="tns:unlockConnectorResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ResetInput">
+    <wsdl:part element="tns:resetRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ResetOutput">
+    <wsdl:part element="tns:resetResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ChangeAvailabilityInput">
+    <wsdl:part element="tns:changeAvailabilityRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ChangeAvailabilityOutput">
+    <wsdl:part element="tns:changeAvailabilityResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetDiagnosticsInput">
+    <wsdl:part element="tns:getDiagnosticsRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="GetDiagnosticsOutput">
+    <wsdl:part element="tns:getDiagnosticsResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ClearCacheInput">
+    <wsdl:part element="tns:clearCacheRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ClearCacheOutput">
+    <wsdl:part element="tns:clearCacheResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="UpdateFirmwareInput">
+    <wsdl:part element="tns:updateFirmwareRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="UpdateFirmwareOutput">
+    <wsdl:part element="tns:updateFirmwareResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ChangeConfigurationInput">
+    <wsdl:part element="tns:changeConfigurationRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="ChangeConfigurationOutput">
+    <wsdl:part element="tns:changeConfigurationResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="RemoteStartTransactionInput">
+    <wsdl:part element="tns:remoteStartTransactionRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="RemoteStartTransactionOutput">
+    <wsdl:part element="tns:remoteStartTransactionResponse" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="RemoteStopTransactionInput">
+    <wsdl:part element="tns:remoteStopTransactionRequest" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="RemoteStopTransactionOutput">
+    <wsdl:part element="tns:remoteStopTransactionResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="ChargePointService">
+
+    <wsdl:operation name="UnlockConnector">
+      <wsdl:input message="tns:UnlockConnectorInput" wsaw:Action="/UnlockConnector"/>
+      <wsdl:output message="tns:UnlockConnectorOutput"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="Reset">
+      <wsdl:input message="tns:ResetInput" wsaw:Action="/Reset"/>
+      <wsdl:output message="tns:ResetOutput"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="ChangeAvailability">
+      <wsdl:input message="tns:ChangeAvailabilityInput" wsaw:Action="/ChangeAvailability"/>
+      <wsdl:output message="tns:ChangeAvailabilityOutput"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetDiagnostics">
+      <wsdl:input message="tns:GetDiagnosticsInput" wsaw:Action="/GetDiagnostics"/>
+      <wsdl:output message="tns:GetDiagnosticsOutput"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="ClearCache">
+      <wsdl:input message="tns:ClearCacheInput" wsaw:Action="/ClearCache"/>
+      <wsdl:output message="tns:ClearCacheOutput"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="UpdateFirmware">
+      <wsdl:input message="tns:UpdateFirmwareInput" wsaw:Action="/UpdateFirmware"/>
+      <wsdl:output message="tns:UpdateFirmwareOutput"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="ChangeConfiguration">
+      <wsdl:input message="tns:ChangeConfigurationInput" wsaw:Action="/ChangeConfiguration"/>
+      <wsdl:output message="tns:ChangeConfigurationOutput"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="RemoteStartTransaction">
+      <wsdl:input message="tns:RemoteStartTransactionInput" wsaw:Action="/RemoteStartTransaction"/>
+      <wsdl:output message="tns:RemoteStartTransactionOutput"/>
+    </wsdl:operation>
+
+    <wsdl:operation name="RemoteStopTransaction">
+      <wsdl:input message="tns:RemoteStopTransactionInput" wsaw:Action="/RemoteStopTransaction"/>
+      <wsdl:output message="tns:RemoteStopTransactionOutput"/>
+    </wsdl:operation>
+    
+  </wsdl:portType>
+
+  <wsdl:binding name="ChargePointServiceSoap" type="tns:ChargePointService">
+
+    <wsp:PolicyReference URI="#ServicePolicy"/>
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <wsdl:operation name="UnlockConnector">
+      <soap12:operation soapAction="/UnlockConnector" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="Reset">
+      <soap12:operation soapAction="/Reset" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+    <wsdl:operation name="ChangeAvailability">
+      <soap12:operation soapAction="/ChangeAvailability" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+         <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="GetDiagnostics">
+      <soap12:operation soapAction="/GetDiagnostics" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="ClearCache">
+      <soap12:operation soapAction="/ClearCache" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="UpdateFirmware">
+      <soap12:operation soapAction="/UpdateFirmware" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+    <wsdl:operation name="ChangeConfiguration">
+      <soap12:operation soapAction="/ChangeConfiguration" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="RemoteStartTransaction">
+      <soap12:operation soapAction="/RemoteStartTransaction" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="RemoteStopTransaction">
+      <soap12:operation soapAction="/RemoteStopTransaction" style="document"/>
+      <wsdl:input>
+        <soap12:header message="tns:Header" part="ChargeBoxIdentity" use="literal"/>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+
+  </wsdl:binding>
+
+  <!-- The OCPP ChargePoint service -->
+  <wsdl:service name="ChargePointService">
+    <wsdl:documentation>The ChargePoint Service for the Open Charge Point Protocol</wsdl:documentation>
+    <wsdl:port binding="tns:ChargePointServiceSoap" name="ChargePointServiceSoap12">
+      <soap12:address location="http://localhost/Ocpp/ChargePointService/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Smart Simulator</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./css/bootstrap.css">
+<link rel="stylesheet" href="./css/bootstrap-theme.css">
+<link rel="stylesheet" href="./css/sticky-footer.css">
+<script src="./js/jquery-1.11.2.js"></script>
+<script src="./js/angular.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="index-controller.js"></script>
+</head>
+
+<body data-ng-app="chargepointApplication" data-ng-controller="chargepointCtrl">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Smart Simulator</a>
+			</div>
+			<div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a data-ng-click="onHomeButtonClick()"><span class="glyphicon glyphicon-home">Home</span></a></li>
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Devices<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+
+							<li><a data-toggle="modal" data-target="#dialog_edit" data-ng-click="onNewButtonClick()"><span class="glyphicon glyphicon-plus"></span>
+									Create Device</a></li>
+
+						</ul></li>
+					<li><a data-toggle="modal" data-target="#about"><span class="glyphicon glyphicon-info-sign">About</span></a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li class=" active"><a><span class="glyphicon glyphicon-time" id="time"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+				</ul>
+
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Device List -->
+
+	<div class="container" id="cps_container">
+		<div class="navbar-header">
+			<a class="navbar-brand" onclick="location.reload();" title="refresh">My Devices <span class="glyphicon glyphicon-refresh"></span></a>
+		</div>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#" title="search charge point"><span class="glyphicon glyphicon-search"></span></a></li>
+			<li><a data-toggle="modal" data-target="#dialog_edit" data-ng-click="onNewButtonClick()" title="new charge point"><span
+					class="glyphicon glyphicon-plus"
+				></span></a></li>
+
+		</ul>
+		<span class="navbar-form navbar-right"> <input type="text" class="form-control" data-ng-model="keyOfchargePoint" placeholder="Search...">
+		</span>
+
+		<table class="table table-responsive table-hover">
+			<thead>
+				<tr>
+					<th class="col-sm-1">Version</th>
+					<th class="col-sm-1">Serial ID</th>
+					<th class="col-sm-1">Connectors</th>
+					<th class="col-sm-3">Central URL</th>
+					<th class="col-sm-3">Device URL</th>
+
+					<th class="col-sm-1">&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="o in cps | filter: keyOfchargePoint | orderBy : 'id'" id="tr{{o.id}}">
+					<td data-toggle="modal" data-target="#dialog_edit" data-ng-click="onEditClick(o)" class="text-center">{{o.version}}</td>
+					<td data-toggle="modal" data-target="#dialog_edit" data-ng-click="onEditClick(o)">{{o.serial}}</td>
+					<td data-toggle="modal" data-target="#dialog_edit" data-ng-click="onEditClick(o)" class="text-center">{{o.connectors.length}}</td>
+					<td data-toggle="modal" data-target="#dialog_edit" data-ng-click="onEditClick(o)">{{o.centralURL}}</td>
+					<td >http://localhost/simulator/r/{{o.version}}/{{o.serial}}</td>
+
+					<td class="col-sm-2 text-center"><a href="#log" data-ng-click="onLogButtonClick(o)" title="view log"><span
+							class="glyphicon glyphicon-eye-open"
+						></span></a>
+
+						<div class="btn-group">
+							<span class="glyphicon glyphicon-th-list dropdown-toggle " data-toggle="dropdown"><span class="caret"></span> </span>
+							<ul class="dropdown-menu" role="menu">
+								<li><a data-toggle="modal" data-target="#dialog_edit" data-ng-click="onEditClick(o)" title="edit"><span
+										class="glyphicon glyphicon-pencil"
+									>&nbsp;Edit</span></a></li>
+								<li><a data-ng-click="remove(o)"><span class="glyphicon glyphicon-remove">&nbsp;</span>Remove</a></li>
+								<li class="divider"></li>
+								<li><a href="#"><span class="glyphicon glyphicon-play"></span> <span class="glyphicon glyphicon-pause"></span>Heartbeat </a></li>
+							</ul>
+						</div> <span class="hide">{{o.createDate}}</span></td>
+				</tr>
+
+
+			</tbody>
+		</table>
+
+	</div>
+
+	<!-- log part -->
+	<div class="container hidden" id="log_container">
+		<div class="navbar-header">
+			<a class="navbar-brand" id="log">Downwards Logs of <code>{{chargepoint.serial}}</code></a>
+		</div>
+
+
+		<span class="navbar-form navbar-right"> <input type="text" class="form-control" data-ng-model="keywords" placeholder="Search..."> <a
+			href="#"
+		><span class="glyphicon glyphicon-search"></span> </a></span>
+
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Protocol</th>
+					<th>ChargePoint Serial ID</th> 
+					<th class="col-sm-2">&nbsp;  
+					<a data-ng-click="clearLogs(chargepoint)" title="clear logs" ><span class="glyphicon glyphicon-floppy-remove"></span></a>&nbsp; 
+					<a data-ng-click="onHomeButtonClick()" title="go home"> <span class="glyphicon glyphicon-home" > </span></a>&nbsp; 
+					<a data-ng-click="onRetweetClick()" title="stop scroll"><span id="retweet" class="glyphicon glyphicon-pushpin">&nbsp;{{refreshStatus()}}</span></a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{chargepoint.version}}</td>
+					<td>{{chargepoint.serial}}</td>
+					<td>&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<ul class="nav nav-tabs" role="tablist">
+			<li><a href="#">Upwards</a></li>
+			<li class="active"><a href="#">Downwards</a></li>
+
+		</ul>
+		<div class="row  tab-panel text-container">
+ 
+			<div class="col-sm-12">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="text-center">Request</th>
+						<th class="text-center">Response</th> 
+					</tr>
+				</thead></table>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="row  tab-panel text-container" data-ng-repeat="g in logs | filter: keywords ">
+			<div class="col-sm-6 content">
+				<p>{{formatTime(g.requestTime)}}</p>
+				<p>{{g.request}}</p>
+			</div>
+			<div class="col-sm-6 content">
+				<p>{{formatTime(g.responseTime)}}</p>
+				<p>{{g.response}}</p>
+				<p>{{g.error}}</p>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+
+	<!-- Invisable parts -->
+	<div id="div_invisable" class="container">
+		<!-- 
+		Trigger the modal with a link
+		<a data-toggle="modal" data-target="#dialog_edit">
+		 -->
+
+		<!-- Modal dialog insert-->
+		<div class="modal fade" id="dialog_edit" role="dialog">
+			<div class="modal-dialog modal-lg modal-dialog-mid">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">
+							<span class="glyphicon glyphicon-plus"></span> Edit Device
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form">
+							<div class="form-group">
+								<label class="col-sm-4 control-label text-capitalize" for="serial">Serial ID</label>
+								<div class="col-sm-4">
+									<input class="form-control" id="serial" type="text" data-ng-model="chargepoint.serial" value="Serial ID">
+								</div>
+								<label class="col-sm-4 text-left media-middle">*</label>
+							</div>
+							<div class="form-group">
+								<label for="sel-version" class="col-sm-4 control-label text-capitalize">Version</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="sel-version" data-ng-model="chargepoint.version">
+										<option value="OCPP12">ocpp1.2</option>
+										<option value="OCPP15" selected="selected">ocpp1.5</option>
+										<option value="OCPP20">ocpp2.0</option>
+									</select>
+								</div>
+								<label class="col-sm-4 control-label">&nbsp;</label>
+							</div>
+
+							<div class="form-group">
+								<label for="sel-conn" class="col-sm-4 control-label text-capitalize">Connectors</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="sel-conn" data-ng-model="connectors" data-ng-click="getConnectors(connectors)">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+									</select>
+								</div>
+								<label class="col-sm-4 control-label">&nbsp;</label>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label text-capitalize" for="centralurl">Central URL</label>
+								<div class="col-sm-4">
+									<input class="form-control" id="centralurl" type="text" data-ng-model="chargepoint.centralURL" value="http://spruce:9081/ocpp15">
+								</div>
+								<label class="col-sm-4 control-label">&nbsp;</label>
+							</div>
+
+
+							<p class="well well-sm hidden ">INFO:{{chargepoint}}</p>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+
+						<div class="btn-group">
+							<button type="button" class="btn btn-default " data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-primary" data-ng-click="saveUpdate()" data-dismiss="modal">Save</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- Modal dialog about-->
+		<div class="modal fade" id="about" role="dialog">
+			<div class="modal-dialog modal-dialog-mid">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">
+							<span class="glyphicon glyphicon-info-sign"></span>About
+						</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							Thanks for choosing <b>Smart Simulator</b>, <br />powered by <a href="mailto:junboqi@cn.ibm.com">junboqi@cn.ibm.com</a>.
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default " data-dismiss="modal">OK</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<footer class="footer">
+		<div class="container ">
+			<p class="pager">
+				<span class="glyphicon glyphicon-copyright-mark"></span>2015~2020
+			</p>
+		</div>
+	</footer>
+</body>
+
+
+</html>

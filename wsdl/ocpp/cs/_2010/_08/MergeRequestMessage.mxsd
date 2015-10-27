@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema elementFormDefault="qualified" targetNamespace="urn://Ocpp/Cs/2010/08/" xmlns:tns="urn://Ocpp/Cs/2010/08/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="headType">
+		<xs:sequence>
+			<xs:element name="chargeBoxIdentity" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="authorizeRequestBodyType">
+		<xs:sequence>
+			<xs:element name="authorizeRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="idTag" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="startTransactionRequestType">
+		<xs:sequence>
+			<xs:element name="startTransactionRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="connectorId" type="xs:int"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="idTag" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="timestamp" type="xs:dateTime"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="meterStart" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="stopTransactionRequestType">
+		<xs:sequence>
+			<xs:element name="stopTransactionRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="transactionId" type="xs:int"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="idTag" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="timestamp" type="xs:dateTime"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="meterStop" type="xs:int"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="heartbeatRequestType">
+		<xs:sequence>
+			<xs:element name="heartbeatRequest" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="meterValuesRequestType">
+		<xs:sequence>
+			<xs:element name="meterValuesRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="connectorId" type="xs:int"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="values">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="timestamp" type="xs:dateTime"/>
+									<xs:element name="value" type="xs:int"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="bootNotificationRequestType">
+		<xs:sequence>
+			<xs:element name="bootNotificationRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="chargePointVendor" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="chargePointModel" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="chargePointSerialNumber" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="chargeBoxSerialNumber" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="firmwareVersion" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="iccid" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="imsi" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="meterType" type="xs:string"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="meterSerialNumber" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="statusNotificationRequestType">
+		<xs:sequence>
+			<xs:element name="statusNotificationRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="connectorId" type="xs:int"/>
+						<xs:element maxOccurs="1" minOccurs="1" name="status">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Available"/>
+									<xs:enumeration value="Occupied"/>
+									<xs:enumeration value="Faulted"/>
+									<xs:enumeration value="Unavailable"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element maxOccurs="1" minOccurs="1" name="errorCode">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="ConnectorLockFailure"/>
+									<xs:enumeration value="HighTemperature"/>
+									<xs:enumeration value="Mode3Error"/>
+									<xs:enumeration value="NoError"/>
+									<xs:enumeration value="PowerMeterFailure"/>
+									<xs:enumeration value="PowerSwitchFailure"/>
+									<xs:enumeration value="ReaderFailure"/>
+									<xs:enumeration value="ResetFailure"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="firmwareStatusNotificationRequestType">
+		<xs:sequence>
+			<xs:element name="firmwareStatusNotificationRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="status">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Downloaded"/>
+									<xs:enumeration value="DownloadFailed"/>
+									<xs:enumeration value="InstallationFailed"/>
+									<xs:enumeration value="Installed"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="diagnosticsStatusNotificationRequestType">
+		<xs:sequence>
+			<xs:element name="diagnosticsStatusNotificationRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="1" minOccurs="1" name="status">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="Uploaded"/>
+									<xs:enumeration value="UploadFailed"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:element name="headType" type="tns:headType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/headType;XSDElementDeclaration$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="authorizeRequestBodyType" type="tns:authorizeRequestBodyType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/authorizeRequestBodyType;XSDElementDeclaration=1$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="startTransactionRequestType" type="tns:startTransactionRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/startTransactionRequestType;XSDElementDeclaration=2$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="stopTransactionRequestType" type="tns:stopTransactionRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/stopTransactionRequestType;XSDElementDeclaration=3$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="heartbeatRequestType" type="tns:heartbeatRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/heartbeatRequestType;XSDElementDeclaration=4$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="meterValuesRequestType" type="tns:meterValuesRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/meterValuesRequestType;XSDElementDeclaration=5$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="bootNotificationRequestType" type="tns:bootNotificationRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/bootNotificationRequestType;XSDElementDeclaration=6$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="statusNotificationRequestType" type="tns:statusNotificationRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/statusNotificationRequestType;XSDElementDeclaration=7$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="firmwareStatusNotificationRequestType" type="tns:firmwareStatusNotificationRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/firmwareStatusNotificationRequestType;XSDElementDeclaration=8$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+    <xs:element name="diagnosticsStatusNotificationRequestType" type="tns:diagnosticsStatusNotificationRequestType">
+    <xs:annotation>
+      <xs:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/diagnosticsStatusNotificationRequestType;XSDElementDeclaration=9$MRObject"/>
+      </xs:appinfo>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+Copyright Logica 2010
+
+All rights reserved. This document is protected by international copyright law and may not be reprinted,
+reproduced, copied or utilised in whole or in part by any means including electronic, mechanical,
+or other means without the prior written consent of Logica. 
+
+
+Whilst reasonable care has been taken by Logica to ensure the information contained herein is
+reasonably accurate, Logica shall not, under any circumstances be liable for any loss or damage
+(direct or consequential) suffered by any party as a result of the contents of this publication or
+the reliance of any party thereon or any inaccuracy or omission therein. The information in this
+document is therefore provided on an "as is" basis without warranty and is subject to change
+without further notice and cannot be construed as a commitment by Logica. 
+
+
+The products mentioned in this document are identified by the names, trademarks, service marks and
+logos of their respective companies or organisations and may not be used in any advertising or publicity
+or in any other way whatsoever without the prior written consent of those companies or organisations
+and Logica.
+--><xsd:schema elementFormDefault="qualified" targetNamespace="urn://Ocpp/Cs/2010/08/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn://Ocpp/Cs/2010/08/" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+                                                                                                                                  <xsd:simpleType name="AuthorizationStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the authorization-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Accepted"/>
+          <xsd:enumeration value="Blocked"/>
+          <xsd:enumeration value="Expired"/>
+          <xsd:enumeration value="Invalid"/>
+          <xsd:enumeration value="ConcurrentTx"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="IdTagInfo">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:AuthorizationStatus"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="expiryDate" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="parentIdTag" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="AuthorizeRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the Authorize.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="idTag" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="AuthorizeResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the Authorize.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="idTagInfo" type="tns:IdTagInfo"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="StartTransactionRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the StartTransaction.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="connectorId" type="xsd:int"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="idTag" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="timestamp" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="meterStart" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="StartTransactionResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the StartTransaction.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="transactionId" type="xsd:int"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="idTagInfo" type="tns:IdTagInfo"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="StopTransactionRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the StopTransaction.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="transactionId" type="xsd:int"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="idTag" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="timestamp" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="meterStop" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="StopTransactionResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the StopTransaction.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="idTagInfo" type="tns:IdTagInfo"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="HeartbeatRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the Heartbeat.req PDU</xsd:documentation>
+        </xsd:annotation>
+      </xsd:complexType>
+            <xsd:complexType name="HeartbeatResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the Heartbeat.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="currentTime" type="xsd:dateTime"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="MeterValue">
+        <xsd:annotation>
+          <xsd:documentation>Defines single value of the meter-value-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="timestamp" type="xsd:dateTime"/>
+          <xsd:element name="value" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="MeterValuesRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the MeterValues.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="connectorId" type="xsd:int"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="values" type="tns:MeterValue"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="MeterValuesResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the MeterValues.conf PDU</xsd:documentation>
+        </xsd:annotation>
+      </xsd:complexType>
+            <xsd:complexType name="BootNotificationRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the BootNotification.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="chargePointVendor" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="chargePointModel" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="chargePointSerialNumber" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="chargeBoxSerialNumber" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="firmwareVersion" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="iccid" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="imsi" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="meterType" type="xsd:string"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="meterSerialNumber" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:simpleType name="RegistrationStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the registration-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Accepted"/>
+          <xsd:enumeration value="Rejected"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="BootNotificationResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the BootNotification.conf PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:RegistrationStatus"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="currentTime" type="xsd:dateTime"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="heartbeatInterval" type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:simpleType name="ChargePointErrorCode">
+        <xsd:annotation>
+          <xsd:documentation>Defines the charge-point-error-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="ConnectorLockFailure"/>
+          <xsd:enumeration value="HighTemperature"/>
+          <xsd:enumeration value="Mode3Error"/>
+          <xsd:enumeration value="NoError"/>
+          <xsd:enumeration value="PowerMeterFailure"/>
+          <xsd:enumeration value="PowerSwitchFailure"/>
+          <xsd:enumeration value="ReaderFailure"/>
+          <xsd:enumeration value="ResetFailure"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:simpleType name="ChargePointStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the charge-point-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Available"/>
+          <xsd:enumeration value="Occupied"/>
+          <xsd:enumeration value="Faulted"/>
+          <xsd:enumeration value="Unavailable"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="StatusNotificationRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the StatusNotification.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="connectorId" type="xsd:int"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:ChargePointStatus"/>
+          <xsd:element maxOccurs="1" minOccurs="1" name="errorCode" type="tns:ChargePointErrorCode"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="StatusNotificationResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the StatusNotification.conf PDU</xsd:documentation>
+        </xsd:annotation>
+      </xsd:complexType>
+            <xsd:simpleType name="FirmwareStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the firmware-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Downloaded"/>
+          <xsd:enumeration value="DownloadFailed"/>
+          <xsd:enumeration value="InstallationFailed"/>
+          <xsd:enumeration value="Installed"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="FirmwareStatusNotificationRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the FirmwareStatusNotification.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:FirmwareStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="FirmwareStatusNotificationResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the FirmwareStatusNotification.conf PDU</xsd:documentation>
+        </xsd:annotation>
+      </xsd:complexType>
+            <xsd:simpleType name="DiagnosticsStatus">
+        <xsd:annotation>
+          <xsd:documentation>Defines the diagnostics-status-value</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Uploaded"/>
+          <xsd:enumeration value="UploadFailed"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+            <xsd:complexType name="DiagnosticsStatusNotificationRequest">
+        <xsd:annotation>
+          <xsd:documentation>Defines the DiagnosticsStatusNotification.req PDU</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="1" name="status" type="tns:DiagnosticsStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+            <xsd:complexType name="DiagnosticsStatusNotificationResponse">
+        <xsd:annotation>
+          <xsd:documentation>Defines the DiagnosticsStatusNotification.conf PDU</xsd:documentation>
+        </xsd:annotation>
+      </xsd:complexType>
+            <xsd:element name="chargeBoxIdentity" type="xsd:string"/>
+            <xsd:element name="authorizeRequest" type="tns:AuthorizeRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/authorizeRequest;XSDElementDeclaration=1$MRObject" schemaObject="/0/authorizeRequest;XSDElementDeclaration=1"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="authorizeResponse" type="tns:AuthorizeResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/authorizeResponse;XSDElementDeclaration=2$MRObject" schemaObject="/0/authorizeResponse;XSDElementDeclaration=2"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="startTransactionRequest" type="tns:StartTransactionRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/startTransactionRequest;XSDElementDeclaration=3$MRObject" schemaObject="/0/startTransactionRequest;XSDElementDeclaration=3"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="startTransactionResponse" type="tns:StartTransactionResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/startTransactionResponse;XSDElementDeclaration=4$MRObject" schemaObject="/0/startTransactionResponse;XSDElementDeclaration=4"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="stopTransactionRequest" type="tns:StopTransactionRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/stopTransactionRequest;XSDElementDeclaration=5$MRObject" schemaObject="/0/stopTransactionRequest;XSDElementDeclaration=5"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="stopTransactionResponse" type="tns:StopTransactionResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/stopTransactionResponse;XSDElementDeclaration=6$MRObject" schemaObject="/0/stopTransactionResponse;XSDElementDeclaration=6"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="heartbeatRequest" type="tns:HeartbeatRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/heartbeatRequest;XSDElementDeclaration=7$MRObject" schemaObject="/0/heartbeatRequest;XSDElementDeclaration=7"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="heartbeatResponse" type="tns:HeartbeatResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/heartbeatResponse;XSDElementDeclaration=8$MRObject" schemaObject="/0/heartbeatResponse;XSDElementDeclaration=8"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="meterValuesRequest" type="tns:MeterValuesRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/meterValuesRequest;XSDElementDeclaration=9$MRObject" schemaObject="/0/meterValuesRequest;XSDElementDeclaration=9"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="meterValuesResponse" type="tns:MeterValuesResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/meterValuesResponse;XSDElementDeclaration=10$MRObject" schemaObject="/0/meterValuesResponse;XSDElementDeclaration=10"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="bootNotificationRequest" type="tns:BootNotificationRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/bootNotificationRequest;XSDElementDeclaration=11$MRObject" schemaObject="/0/bootNotificationRequest;XSDElementDeclaration=11"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="bootNotificationResponse" type="tns:BootNotificationResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/bootNotificationResponse;XSDElementDeclaration=12$MRObject" schemaObject="/0/bootNotificationResponse;XSDElementDeclaration=12"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="statusNotificationRequest" type="tns:StatusNotificationRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/statusNotificationRequest;XSDElementDeclaration=13$MRObject" schemaObject="/0/statusNotificationRequest;XSDElementDeclaration=13"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="statusNotificationResponse" type="tns:StatusNotificationResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/statusNotificationResponse;XSDElementDeclaration=14$MRObject" schemaObject="/0/statusNotificationResponse;XSDElementDeclaration=14"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="firmwareStatusNotificationRequest" type="tns:FirmwareStatusNotificationRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/firmwareStatusNotificationRequest;XSDElementDeclaration=15$MRObject" schemaObject="/0/firmwareStatusNotificationRequest;XSDElementDeclaration=15"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="firmwareStatusNotificationResponse" type="tns:FirmwareStatusNotificationResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/firmwareStatusNotificationResponse;XSDElementDeclaration=16$MRObject" schemaObject="/0/firmwareStatusNotificationResponse;XSDElementDeclaration=16"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="diagnosticsStatusNotificationRequest" type="tns:DiagnosticsStatusNotificationRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/diagnosticsStatusNotificationRequest;XSDElementDeclaration=17$MRObject" schemaObject="/0/diagnosticsStatusNotificationRequest;XSDElementDeclaration=17"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+            <xsd:element name="diagnosticsStatusNotificationResponse" type="tns:DiagnosticsStatusNotificationResponse">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/diagnosticsStatusNotificationResponse;XSDElementDeclaration=18$MRObject" schemaObject="/0/diagnosticsStatusNotificationResponse;XSDElementDeclaration=18"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+        </xsd:schema>
