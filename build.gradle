@@ -28,7 +28,7 @@ allprojects {
   eclipse {
     classpath {
       //customizing the classes output directory:
-      defaultOutputDir = file('build')
+      //defaultOutputDir = file('build')
     }
   }
 }
