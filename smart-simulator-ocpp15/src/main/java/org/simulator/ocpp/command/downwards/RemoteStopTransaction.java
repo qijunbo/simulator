@@ -6,7 +6,7 @@ import ocpp.cp._2012._06.RemoteStopTransactionRequest;
 import ocpp.cp._2012._06.RemoteStopTransactionResponse;
 import ocpp.cs._2012._06.StopTransactionRequest;
 
-import org.common.soap.XMLGregorianCalendarUtil;
+import org.common.util.soap.XMLGregorianCalendarUtil;
 import org.simulator.common.Cache;
 import org.simulator.message.Indicator;
 import org.simulator.message.receive.OcppDownwardsAction;

@@ -5,7 +5,7 @@ import ocpp.cp._2012._06.CancelReservationResponse;
 import ocpp.cp._2012._06.CancelReservationStatus;
 import ocpp.cp._2012._06.ReserveNowRequest;
 
-import org.common.soap.XMLGregorianCalendarUtil;
+import org.common.util.soap.XMLGregorianCalendarUtil;
 import org.simulator.common.Cache;
 import org.simulator.message.Indicator;
 import org.simulator.message.receive.OcppDownwardsAction;

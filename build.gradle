@@ -63,17 +63,19 @@ subprojects {
 project(':smart-simulator-common') {
 	dependencies {
  
-		//compile "org.springframework:spring-tx:$springVersion"
-    	//compile "org.springframework:spring-beans:$springVersion"
-    	//compile "org.springframework:spring-orm:$springVersion"
-    	//compile "org.springframework:spring-aop:$springVersion"	
-    	
+	}
+}
+
+project(':smart-simulator-core') {
+	dependencies {
+ 	
 	}
 }
 
 project(':smart-simulator-db') {
 	dependencies {
- 
+		compile "org.springframework.data:spring-data-mongodb:$mongodbVersion"
+ 		//compile "org.springframework:spring-webmvc:$springVersion"
 		//compile "org.springframework:spring-tx:$springVersion"
     	//compile "org.springframework:spring-beans:$springVersion"
     	//compile "org.springframework:spring-orm:$springVersion"
@@ -84,14 +86,17 @@ project(':smart-simulator-db') {
  
 
 project(':smart-simulator-server') {
-
+	apply plugin: 'spring-boot'
 	dependencies {
 		compile project(":smart-simulator-common")
+		compile project(":smart-simulator-core")
+		compile project(":smart-simulator-db")
 		compile ('com.google.code.gson:gson:2.3.1')
 		compile ("org.apache.httpcomponents:httpclient:4.4.1")
 		compile ('commons-logging:commons-logging:1.2')
    		compile "org.springframework:spring-webmvc:$springVersion"
    		compile "org.springframework.data:spring-data-mongodb:$mongodbVersion"
+   		compile ("org.springframework.boot:spring-boot-starter-web")
 	}
 }
 

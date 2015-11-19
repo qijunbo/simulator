@@ -6,7 +6,7 @@ import ocpp.cp._2012._06.ReservationStatus;
 import ocpp.cp._2012._06.ReserveNowRequest;
 import ocpp.cp._2012._06.ReserveNowResponse;
 
-import org.common.soap.XMLGregorianCalendarUtil;
+import org.common.util.soap.XMLGregorianCalendarUtil;
 import org.simulator.common.Cache;
 import org.simulator.message.Indicator;
 import org.simulator.message.receive.OcppDownwardsAction;

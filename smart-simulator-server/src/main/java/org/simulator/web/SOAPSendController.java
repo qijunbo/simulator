@@ -1,8 +1,8 @@
 package org.simulator.web;
 
-import org.simulator.audit.model.OcppAuditRepository;
 import org.simulator.message.service.MsgService;
 import org.simulator.message.service.MsgServiceLocator;
+import org.simulator.model.audit.OcppAuditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

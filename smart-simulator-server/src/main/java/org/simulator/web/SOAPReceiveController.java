@@ -4,11 +4,11 @@ import javax.xml.soap.SOAPMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.simulator.audit.model.AuditService;
-import org.simulator.audit.model.OcppAudit;
 import org.simulator.message.Indicator;
 import org.simulator.message.receive.MessageAction;
 import org.simulator.message.receive.MessageActionLocator;
+import org.simulator.model.audit.AuditService;
+import org.simulator.model.audit.OcppAudit;
 import org.simulator.ocpp.OcppIndicator;
 import org.simulator.ocpp.ProtocolType;
 import org.simulator.soap.SOAPMessageFactory;

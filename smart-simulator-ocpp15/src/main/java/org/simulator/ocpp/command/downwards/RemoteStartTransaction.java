@@ -8,13 +8,13 @@ import ocpp.cp._2012._06.RemoteStartTransactionResponse;
 import ocpp.cp._2012._06.ReserveNowRequest;
 import ocpp.cs._2012._06.StartTransactionRequest;
 
-import org.common.soap.XMLGregorianCalendarUtil;
-import org.simulator.chargepoint.model.ChargePointRepository;
+import org.common.util.soap.XMLGregorianCalendarUtil;
 import org.simulator.common.Cache;
 import org.simulator.message.Indicator;
 import org.simulator.message.receive.OcppDownwardsAction;
 import org.simulator.message.service.MsgService;
 import org.simulator.message.service.MsgServiceLocator;
+import org.simulator.model.chargepoint.ChargePointRepository;
 import org.simulator.ocpp.OcppIndicator;
 import org.simulator.ocpp.ProtocolType;
 import org.simulator.ocpp15.command.upwards.Ocpp15Upwards;

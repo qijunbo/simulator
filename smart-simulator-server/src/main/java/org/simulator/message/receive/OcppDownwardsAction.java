@@ -5,8 +5,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
-import org.simulator.chargepoint.model.ChargePointRepository;
 import org.simulator.message.Indicator;
+import org.simulator.model.chargepoint.ChargePointRepository;
 import org.simulator.ocpp.ProtocolType;
 import org.simulator.soap.SOAPMessageFactory;
 import org.simulator.soap.SoapRequest;
