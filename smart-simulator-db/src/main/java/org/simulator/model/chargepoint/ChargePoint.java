@@ -26,7 +26,8 @@ public class ChargePoint {
 
 	@DateTimeFormat(iso = ISO.DATE_TIME )
 	Date createDate;
-	
+
+	Date updateDate;
 
 	int heartbeat;
 
@@ -48,6 +49,14 @@ public class ChargePoint {
 
 	public String getId() {
 		return id;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
 	}
 
 	public String getVersion() {
@@ -74,16 +83,16 @@ public class ChargePoint {
 		this.id = id;
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public String getSerial() {
-		return serial;
-	}
-
 	public void setSerial(String serial) {
 		this.serial = serial;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	@Override

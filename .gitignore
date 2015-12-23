@@ -1,0 +1,10 @@
+smart-simulator-db/.classpath
+*.classpath
+*.bin
+*.project
+smart-simulator-web/.settings/
+smart-simulator-springboot/.settings/
+smart-simulator-springmvc/.settings/
+smart-simulator-ocpp12/.settings/
+smart-simulator-core/.settings/
+smart-simulator-db/.settings/

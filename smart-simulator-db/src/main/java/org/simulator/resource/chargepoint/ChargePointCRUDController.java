@@ -1,8 +1,9 @@
-package org.simulator.rest.chargepoint;
+package org.simulator.resource.chargepoint;
 
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.Date;
 import java.util.List;
@@ -16,20 +17,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController	
+@RestController
 @RequestMapping("/chargepoint")
 public class ChargePointCRUDController {
 
 	@Autowired
 	private ChargePointRepository repository;
 
-	 
 	@RequestMapping(method = POST)
 	public @ResponseBody ChargePoint create(@RequestBody ChargePoint chargePoint) {
 
 		chargePoint.setCreateDate(new Date());
 		chargePoint = repository.save(chargePoint);
 		return chargePoint;
+	}
+
+	@RequestMapping(method = PUT)
+	public @ResponseBody boolean update(@RequestBody ChargePoint chargePoint) {
+
+		if (repository.exists(chargePoint.getId())) {
+			chargePoint.setUpdateDate(new Date());
+			chargePoint = repository.save(chargePoint);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -47,7 +58,7 @@ public class ChargePointCRUDController {
 	 */
 	@RequestMapping(value = "/{id}", method = GET)
 	public @ResponseBody ChargePoint get(@PathVariable String id) {
-		return repository.findById(id);
+		return repository.findOne(id);
 	}
 
 	@RequestMapping(value = "/{id}", method = DELETE)
