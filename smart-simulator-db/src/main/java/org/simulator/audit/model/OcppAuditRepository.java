@@ -1,4 +1,4 @@
-package org.simulator.model.audit;
+package org.simulator.audit.model;
 
 import java.util.Date;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.simulator.model.chargepoint;
+package org.simulator.chargepoint.model;
 
 import java.util.Collections;
 import java.util.Date;

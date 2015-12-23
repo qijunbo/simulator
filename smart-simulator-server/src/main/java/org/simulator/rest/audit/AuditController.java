@@ -6,8 +6,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import java.util.Date;
 import java.util.List;
 
-import org.simulator.model.audit.OcppAudit;
-import org.simulator.model.audit.OcppAuditRepository;
+import org.simulator.audit.model.OcppAudit;
+import org.simulator.audit.model.OcppAuditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;

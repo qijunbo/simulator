@@ -3,13 +3,13 @@ package org.simulator.message.service;
 import java.util.Map;
 
 import org.apache.http.impl.client.BasicResponseHandler;
+import org.simulator.audit.model.AuditService;
+import org.simulator.chargepoint.model.ChargePoint;
+import org.simulator.chargepoint.model.ChargePointRepository;
 import org.simulator.http.client.HttpClientHelper;
 import org.simulator.message.Indicator;
 import org.simulator.message.MsgCreator;
 import org.simulator.message.MsgCreatorLocator;
-import org.simulator.model.audit.AuditService;
-import org.simulator.model.chargepoint.ChargePoint;
-import org.simulator.model.chargepoint.ChargePointRepository;
 import org.simulator.ocpp.OcppIndicator;
 import org.simulator.ocpp.ProtocolType;
 import org.springframework.beans.factory.annotation.Autowired;
