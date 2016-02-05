@@ -27,7 +27,9 @@ public class ChargePointCRUDController {
 	@RequestMapping(method = POST)
 	public @ResponseBody ChargePoint create(@RequestBody ChargePoint chargePoint) {
 
-		chargePoint.setCreateDate(new Date());
+		Date createDate = new Date();
+        chargePoint.setCreateDate(createDate);
+		chargePoint.setCreateDate(createDate);
 		chargePoint = repository.save(chargePoint);
 		return chargePoint;
 	}

@@ -8,3 +8,5 @@ smart-simulator-springmvc/.settings/
 smart-simulator-ocpp12/.settings/
 smart-simulator-core/.settings/
 smart-simulator-db/.settings/
+smart-simulator-common/build/
+smart-simulator-web/src/main/webapp/success.zip

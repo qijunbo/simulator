@@ -8,4 +8,4 @@
  */
 
 
-include 'smart-simulator-common', 'smart-simulator-core', 'smart-simulator-db', 'smart-simulator-ocpp12', 'smart-simulator-ocpp15', 'smart-simulator-server',  'smart-simulator-springboot', 'smart-simulator-springmvc', 'smart-simulator-web'
+include 'smart-simulator-common',  'smart-simulator-db', 'smart-simulator-ocpp12', 'smart-simulator-ocpp15', 'smart-simulator-server'   

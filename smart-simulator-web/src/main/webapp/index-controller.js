@@ -2,14 +2,17 @@
 (function(angular) {
 	'use strict';
 
-	var chagePointApplication = angular.module('chargepointApplication', [])
-			.controller('chargepointCtrl',
+	var chagePointApplication = angular.module('chargepointApplication', []);
+	
+	
+	
+	chagePointApplication.controller('chargepointCtrl',
 					[ '$scope', '$http', ChargePointController ]);
 
 	function ChargePointController($scope, $http) {
-		//$scope.endpoint = "http://localhost:88";
+		$scope.endpoint = "http://localhost:8080";
 		//$scope.endpoint = "http://192.168.100.100:88";
-		$scope.endpoint = "http://5.10.70.180:88";
+		//$scope.endpoint = "http://5.10.70.180:88";
 		$scope.connectors = "1";
 		$scope.logs = new Array();
 		$scope.cps = new Array();
@@ -40,7 +43,7 @@
 		// get a list of charge points from db.
 		$http.get($scope.endpoint + '/chargepoint').success(
 				function(response) {
-					console.log(response);
+					console.log(JSON.stringify(response));
 					$scope.cps = response;
 				});
 
@@ -100,7 +103,7 @@
 
 		// on click the save button, save to DB.
 		$scope.saveUpdate = function() {
-
+			alert($scope.chargepoint.id);
 			var insertFlag = $scope.chargepoint.id == null ? true : false;
 			$http.post($scope.endpoint  + '/chargepoint', $scope.chargepoint)
 					.success(function(data, status, headers, config) {
@@ -157,7 +160,7 @@
 			var time = $scope.logs.length > 0 ? $scope.logs[0].requestTime : 0;
 			  
 				// console.log($scope.logs[0].requestTime);
-				// console.log($scope.chargepoint.serial);
+				console.log($scope.chargepoint.serial);
 				$http.get($scope.endpoint + '/audit/' + $scope.chargepoint.serial + "/" + time)
 				.success(
 					function(response) {

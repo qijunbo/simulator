@@ -66,23 +66,27 @@ project(':smart-simulator-common') {
 	}
 }
 
-project(':smart-simulator-core') {
-	dependencies {
- 	
-	}
-}
-
+ 
 project(':smart-simulator-db') {
-  	apply plugin: 'spring-boot'
-	dependencies {
-		//compile ("org.springframework.data:spring-data-mongodb:$mongodbVersion")
-		compile ("org.springframework.boot:spring-boot-starter-web")
-		compile ("org.springframework.boot:spring-boot-starter-data-mongodb")
+	apply plugin: 'war'
+	apply plugin: 'eclipse-wtp'
+	apply plugin: 'spring-boot'
+  	
+	configurations {
+	    providedRuntime
 	}
 	
-	jar {
+
+	dependencies {
+		//compile ("org.springframework.data:spring-data-mongodb:$mongodbVersion")
+		compile ("org.springframework.boot:spring-boot-starter-data-mongodb")
+		compile ("org.springframework.boot:spring-boot-starter-web")
+		providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+	}
+	
+	war{
 	    baseName = 'device-manager'
-	    version =  '1.0-' + currentTime
+	    //version =  '1.0-' + currentTime
 	}
 }
  
@@ -105,13 +109,13 @@ project(':smart-simulator-server') {
 
 project(':smart-simulator-ocpp12') {
 	dependencies {
-		compile project(":smart-simulator-server") 
+	//	compile project(":smart-simulator-server") 
 	}
 }
 
 project(':smart-simulator-ocpp15') {
 	dependencies {
-		compile project(":smart-simulator-server")
+	//	compile project(":smart-simulator-server")
 	}
 }
 
@@ -120,7 +124,7 @@ project(':smart-simulator-ocpp15') {
 project(':smart-simulator-springboot') {
 	apply plugin: 'spring-boot'
 	dependencies {
-		compile project(":smart-simulator-ocpp12")
+		//compile project(":smart-simulator-ocpp12")
 		compile project(":smart-simulator-ocpp15")
 		compile ("org.springframework.boot:spring-boot-starter-web")
 		compile ("org.springframework.boot:spring-boot-starter-data-mongodb")
@@ -131,38 +135,7 @@ project(':smart-simulator-springboot') {
 	}
 }
 
-project(':smart-simulator-springmvc') {
- 	apply plugin: 'war'
-	apply plugin: 'eclipse-wtp'
-	dependencies {
-
-		compile project(":smart-simulator-ocpp12")
-		compile project(":smart-simulator-ocpp15")
-		compile "org.springframework.data:spring-data-mongodb:$mongodbVersion"
-   		compile "org.springframework:spring-webmvc:$springVersion"
-   		//compile 'org.springframework:spring-context:$springVersion'
-	   	compile "javax.servlet:javax.servlet-api:3.0.1"
-	    providedCompile "javax.servlet:javax.servlet-api:3.0.1"
-	}
-	war {
-	    baseName = 'smart-simulator'
-	    version =  '3.1-' + currentTime
-	}
-	
-}
-
-project(':smart-simulator-web') {
-	apply plugin: 'war'
-	apply plugin: 'eclipse-wtp'
-	
-	dependencies {
-		//runtime files('../libs/db2jcc4.jar')
-	}
-	war {
-	    baseName = 'smart-simulator-client'
-	    version =  '3.1.0'
-	}
  
-}
+ 
 
 

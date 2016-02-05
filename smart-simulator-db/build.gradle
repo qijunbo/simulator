@@ -1,0 +1,83 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+def getDateTime() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd-HHmm");
+		return format.format(new Date());
+}
+
+ext {
+	servletApiVersion = '3.0.1'
+	springVersion = '4.1.6.RELEASE'
+	currentTime = getDateTime()
+}
+	
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+    	classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+        classpath('com.google.code.gson:gson:2.3.1') 
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+
+war {
+	baseName = 'device-manager'
+	version =  '1.0-' + currentTime
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+dependencies {
+
+	compile ("org.springframework.boot:spring-boot-starter-web")
+	compile ("org.springframework.boot:spring-boot-starter-data-mongodb")
+	compile 'com.google.code.gson:gson:2.3.1' 
+	compile "com.fasterxml.jackson.core:jackson-databind:2.5.3"
+	compile "com.fasterxml.jackson.core:jackson-core:2.5.3"
+	compile "com.fasterxml.jackson.core:jackson-annotations:2.5.3"
+	compile 'org.slf4j:slf4j-api:1.7.5'
+	compile 'commons-codec:commons-codec:1.9'
+	compile 'commons-collections:commons-collections:3.2.1'
+	compile 'javax.jms:javax.jms-api:2.0' 
+	compile 'org.apache.httpcomponents:httpclient:4.4.1'
+	compile "org.springframework:spring-jms:$springVersion"
+	compile "org.springframework:spring-webmvc:$springVersion"
+	runtime "ch.qos.logback:logback-classic:1.1.3"
+	runtime "ch.qos.logback:logback-core:1.1.3"
+	providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+
+task product(type: Copy) {
+    from 'product/jaxb'
+    into 'src/main/java/com/ibm/payment/hipay/jaxb'
+}
+
+task stage(type: Copy) {
+    from 'stage/jaxb'
+    into 'src/main/java/com/ibm/payment/hipay/jaxb'
+}
+
+
+
+ 
+ 
+
+ 
+
